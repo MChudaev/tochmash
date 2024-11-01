@@ -7,11 +7,16 @@ $params = array_merge(
 );
 
 return [
+    'language' => 'ru-RU',
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'rbac' => [
+            'class' => 'yii2mod\rbac\Module',
+        ],
+    ],
     'components' => [
         'request' => [
             'baseUrl' => '/admin',
@@ -50,6 +55,19 @@ return [
             'theme' => [
                 'pathMap' => [
                     '@app/views' => '@vendor/hail812/yii2-adminlte3/src/views'
+                ],
+            ],
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['user'],
+        ],
+        'i18n' => [
+            'translations' => [
+                'yii2mod.rbac' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@vendor/yii2mod/yii2-rbac/messages',
+                    'sourceLanguage' => 'en-RU',
                 ],
             ],
         ],

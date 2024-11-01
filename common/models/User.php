@@ -25,6 +25,9 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    public $password;
+    public $role;
+
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
@@ -54,8 +57,26 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            [['username', 'password', 'email'], 'required'],
+            ['email', 'email'],
+            ['username', 'string', 'max' => 255],
+            ['password', 'string', 'min' => 6],
+            ['role', 'string'],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Имя пользователя',
+            'email' => 'Email',
+            'password' => 'Пароль',
+            'role' => 'Роль',
         ];
     }
 
@@ -178,7 +199,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
     }
-
     /**
      * Generates "remember me" authentication key
      */

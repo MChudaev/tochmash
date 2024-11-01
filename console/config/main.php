@@ -16,6 +16,11 @@ return [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'modules' => [
+        'rbac' => [
+            'class' => 'yii2mod\rbac\Module',
+        ],
+    ],
     'controllerMap' => [
         'fixture' => [
             'class' => \yii\console\controllers\FixtureController::class,
@@ -30,6 +35,10 @@ return [
                     'levels' => ['error', 'warning'],
                 ],
             ],
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['user'],
         ],
     ],
     'params' => $params,
