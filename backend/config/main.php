@@ -26,6 +26,7 @@ return [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+			'loginUrl' => ['site/login']
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
@@ -54,7 +55,9 @@ return [
         'view' => [
             'theme' => [
                 'pathMap' => [
-                    '@app/views' => '@vendor/hail812/yii2-adminlte3/src/views'
+                    //'@app/views' => '@vendor/hail812/yii2-adminlte3/src/views'
+					//'@hail812/yii2-adminlte3/views' => '@backend/views',
+					'@app/views' => '@backend/views'
                 ],
             ],
         ],
