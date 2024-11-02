@@ -38,6 +38,7 @@
 					['label' => 'Материалы', 'icon' => 'scroll', 'url' => ['materials/index']],
                     ['label' => 'Типы доставки', 'icon' => 'truck', 'url' => ['delivery-types/index']],
 					['label' => 'Детали', 'icon' => 'cogs', 'url' => ['details/index']],
+					['label' => 'Тип закупки', 'icon' => 'shopping-basket', 'url' => ['purchase-types/index']],
                     [
                         'label' => 'Starter Pages',
                         'icon' => 'tachometer-alt',
