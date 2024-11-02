@@ -62,7 +62,23 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+		// Проверка роли пользователя через RBAC
+		$auth = Yii::$app->authManager;
+		$roles = $auth->getRolesByUser(Yii::$app->user->id);
+
+		$hasAdminRole = false;
+		foreach ($roles as $role) {
+			if ($role->name === 'admin') {
+				$hasAdminRole = true;
+				break;
+			}
+		}
+
+		if (!$hasAdminRole) {
+			return $this->redirect('/');
+		}
+
+		return $this->render('index');
     }
 
     /**
