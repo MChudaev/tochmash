@@ -40,6 +40,7 @@
 					['label' => 'Детали', 'icon' => 'cogs', 'url' => ['details/index']],
 					['label' => 'Тип закупки', 'icon' => 'shopping-basket', 'url' => ['purchase-types/index']],
 					['label' => 'Заказчики', 'icon' => 'user-friends', 'url' => ['customers/index']],
+					['label' => 'Сотрудники', 'icon' => 'users', 'url' => ['employees/index']],
                     [
                         'label' => 'Starter Pages',
                         'icon' => 'tachometer-alt',
