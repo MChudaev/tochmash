@@ -2,12 +2,14 @@
 
 namespace backend\controllers;
 
+use Yii;
 use app\models\PurchaseTypes;
 use app\models\PurchaseTypesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii2mod\rbac\filters\AccessControl;
+use app\models\Requests;
 
 /**
  * PurchaseTypesController implements the CRUD actions for PurchaseTypes model.
@@ -115,26 +117,31 @@ class PurchaseTypesController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+	public function actionDelete($id)
+	{
+		$model = $this->findModel($id);
 
-        return $this->redirect(['index']);
-    }
+		// Проверка, используется ли запись в заявках
+		/*if ($this->isPurchaseTypeUsedInRequests($id)) {
+			Yii::$app->session->setFlash('error', 'Нельзя удалить запись, так как она используется в заявках.');
+			return $this->redirect(['index']);
+		}*/
 
-    /**
-     * Finds the PurchaseTypes model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID
-     * @return PurchaseTypes the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = PurchaseTypes::findOne(['id' => $id])) !== null) {
-            return $model;
-        }
+		$model->delete();
+		return $this->redirect(['index']);
+	}
 
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
+	protected function findModel($id)
+	{
+		if (($model = PurchaseTypes::findOne($id)) !== null) {
+			return $model;
+		}
+
+		throw new NotFoundHttpException('The requested page does not exist.');
+	}
+
+	private function isPurchaseTypeUsedInRequests($id)
+	{
+		return Requests::find()->where(['request_type_id' => $id])->exists();
+	}
 }

@@ -2,12 +2,14 @@
 
 namespace backend\controllers;
 
+use Yii;
 use app\models\Employees;
 use app\models\EmployeesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii2mod\rbac\filters\AccessControl;
+use app\models\Requests;
 
 /**
  * EmployeesController implements the CRUD actions for Employees model.
@@ -116,26 +118,31 @@ class EmployeesController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+	public function actionDelete($id)
+	{
+		$model = $this->findModel($id);
 
-        return $this->redirect(['index']);
-    }
+		// Проверка, используется ли запись в заявках
+		if ($this->isEmployeeUsedInRequests($id)) {
+			Yii::$app->session->setFlash('error', 'Нельзя удалить запись, так как она используется в заявках.');
+			return $this->redirect(['index']);
+		}
 
-    /**
-     * Finds the Employees model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID
-     * @return Employees the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Employees::findOne(['id' => $id])) !== null) {
-            return $model;
-        }
+		$model->delete();
+		return $this->redirect(['index']);
+	}
 
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
+	protected function findModel($id)
+	{
+		if (($model = Employees::findOne($id)) !== null) {
+			return $model;
+		}
+
+		throw new NotFoundHttpException('The requested page does not exist.');
+	}
+
+	private function isEmployeeUsedInRequests($id)
+	{
+		return Requests::find()->where(['employee_id' => $id])->exists();
+	}
 }

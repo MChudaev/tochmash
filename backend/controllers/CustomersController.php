@@ -2,12 +2,14 @@
 
 namespace backend\controllers;
 
+use Yii;
 use app\models\Customers;
 use app\models\CustomersSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii2mod\rbac\filters\AccessControl;
+use app\models\Requests;
 
 /**
  * CustomersController implements the CRUD actions for Customers model.
@@ -116,26 +118,31 @@ class CustomersController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+	public function actionDelete($id)
+	{
+		$model = $this->findModel($id);
 
-        return $this->redirect(['index']);
-    }
+		// Проверка, используется ли запись в заявках
+		if ($this->isCustomerUsedInRequests($id)) {
+			Yii::$app->session->setFlash('error', 'Нельзя удалить запись, так как она используется в заявках.');
+			return $this->redirect(['index']);
+		}
 
-    /**
-     * Finds the Customers model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID
-     * @return Customers the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Customers::findOne(['id' => $id])) !== null) {
-            return $model;
-        }
+		$model->delete();
+		return $this->redirect(['index']);
+	}
 
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
+	protected function findModel($id)
+	{
+		if (($model = Customers::findOne($id)) !== null) {
+			return $model;
+		}
+
+		throw new NotFoundHttpException('The requested page does not exist.');
+	}
+
+	private function isCustomerUsedInRequests($id)
+	{
+		return Requests::find()->where(['customer_id' => $id])->exists();
+	}
 }
