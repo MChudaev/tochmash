@@ -33,10 +33,10 @@ class Requests extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'employee_id', 'request_type_id', 'customer_id'], 'required'],
+            [['name', 'employee_id', 'customer_id'], 'required'],
             [['description'], 'string'],
             [['created_at'], 'safe'],
-            [['employee_id', 'request_type_id', 'customer_id'], 'integer'],
+            [['employee_id', 'customer_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customers::class, 'targetAttribute' => ['customer_id' => 'id']],
             [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employees::class, 'targetAttribute' => ['employee_id' => 'id']],

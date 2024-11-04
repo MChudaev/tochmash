@@ -32,7 +32,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'drawing_number',
-            'drawing_file',
+			[
+				'attribute' => 'drawing_file',
+				'format' => 'raw',
+				'value' => function ($model) {
+					$filePath = Yii::getAlias('@backend/web/uploads/' . $model->drawing_file);
+					if (file_exists($filePath)) {
+						return Html::a($model->drawing_file, Yii::getAlias('@backendUrl') . '/uploads/' . $model->drawing_file, ['target' => '_blank']);
+					} else {
+						return $model->drawing_file;
+					}
+				},
+			],
+            //'drawing_file',
         ],
     ]) ?>
 

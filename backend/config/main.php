@@ -76,4 +76,7 @@ return [
         ],
     ],
     'params' => $params,
+	'aliases' => [
+		'@backendUrl' => 'http://tochmash.local/backend/web',
+	],
 ];

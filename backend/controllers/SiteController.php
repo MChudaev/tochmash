@@ -70,7 +70,7 @@ class SiteController extends Controller
 		foreach ($roles as $role) {
 			if ($role->name === 'admin') {
 				$hasAdminRole = true;
-				break;
+				return $this->redirect('requests/index');
 			}
 		}
 

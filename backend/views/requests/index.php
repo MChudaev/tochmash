@@ -28,11 +28,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
 
             'id',
             'name',
-            'description:ntext',
+            //'description:ntext',
             'created_at',
 			[
 				'attribute' => 'employee_id',
@@ -52,7 +52,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Requests $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                 },
+				'buttonOptions' => [
+					'class' => 'action-button',
+				],
             ],
         ],
     ]); ?>

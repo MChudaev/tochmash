@@ -1,0 +1,16 @@
+.action-button {
+    margin-right: 10px;
+}
+
+.brand-link {
+    text-align: center;
+}
+
+.brand-link .brand-image {
+    float: none !important;
+    max-height: none !important;
+}
+
+.help-block {
+    color: red;
+}
