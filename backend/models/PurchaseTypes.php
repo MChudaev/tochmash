@@ -40,7 +40,7 @@ class PurchaseTypes extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'purchase' => 'Закупка',
-            'customer_material' => 'Материал заказщика',
+            'customer_material' => 'Материал заказчика',
         ];
     }
 }

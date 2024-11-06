@@ -27,7 +27,7 @@ use app\models\Customers;
 	) ?>
 
 	<?= $form->field($model, 'customer_id')->dropDownList(
-		ArrayHelper::map($customers, 'id', 'address'),
+		ArrayHelper::map($customers, 'id', 'contact_persons'),
 		['prompt' => 'Выбрать заказчика']
 	) ?>
 

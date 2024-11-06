@@ -44,9 +44,9 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'attribute' => 'customer_id',
 				'value' => function ($model) {
-					return $model->customer ? $model->customer->address : '';
+					return $model->customer ? $model->customer->contact_persons : '';
 				},
-				'filter' => \yii\helpers\ArrayHelper::map(\app\models\Customers::find()->all(), 'id', 'address'),
+				'filter' => \yii\helpers\ArrayHelper::map(\app\models\Customers::find()->all(), 'id', 'contact_persons'),
 			],
             [
                 'class' => ActionColumn::className(),

@@ -14,6 +14,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/admi
 
 $publishedRes = Yii::$app->assetManager->publish('@vendor/hail812/yii2-adminlte3/src/web/js');
 $this->registerJsFile($publishedRes[1].'/control_sidebar.js', ['depends' => '\hail812\adminlte3\assets\AdminLteAsset']);
+\hail812\adminlte3\assets\PluginAsset::register($this)->add(['sweetalert2', 'toastr']);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -50,6 +51,17 @@ $this->registerJsFile($publishedRes[1].'/control_sidebar.js', ['depends' => '\ha
 </div>
 
 <?php $this->endBody() ?>
+
+
+<script>
+    $(document).ready(function() {
+        <?php
+            if (Yii::$app->session->hasFlash('error'))
+                echo "toastr.error('" . Yii::$app->session->getFlash('error') . "');";
+            echo "});"
+        ?>
+</script>
+
 </body>
 </html>
 <?php $this->endPage() ?>

@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'attribute' => 'customer_id',
 				'value' => function ($model) {
-					return $model->customer ? $model->customer->address : 'N/A';
+					return $model->customer ? $model->customer->contact_persons : 'N/A';
 				},
 			],
 		],
